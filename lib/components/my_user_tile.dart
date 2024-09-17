@@ -22,11 +22,11 @@ class MyUserTile extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.tertiary),
+                    color: Theme.of(context).colorScheme.inversePrimary),
                 child: Icon(
                   Icons.person_2_rounded,
-                  size: 30,
-                  color: Theme.of(context).colorScheme.inversePrimary,
+                  size: 35,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(width: 20),

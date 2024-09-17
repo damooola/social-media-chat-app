@@ -40,70 +40,73 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // chat app logo
-            Transform.rotate(
-              angle: 85,
-              child: Icon(
-                Icons.message,
-                size: 70,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-
-            const SizedBox(height: 50),
-            // welcome message
-            Text(
-              "Welcome Back!",
-              style: TextStyle(
-                  fontSize: 16, color: Theme.of(context).colorScheme.primary),
-            ),
-            const SizedBox(height: 25),
-            //email textfield
-            MyTextField(
-              hintText: "Type Email",
-              obscureText: false,
-              textController: _emailController,
-            ),
-            const SizedBox(height: 10),
-            //password textfield
-            MyTextField(
-              hintText: "Type Password",
-              obscureText: true,
-              textController: _passwordController,
-            ),
-            const SizedBox(height: 25),
-
-            //login button
-            MyButton(
-              text: "Log In",
-              onTap: userLogin,
-            ),
-            const SizedBox(height: 25),
-
-            //register now
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  " Not a member?",
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // chat app logo
+              Transform.rotate(
+                angle: 85,
+                child: Icon(
+                  Icons.message,
+                  size: 70,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                TextButton(
-                    onPressed: widget.goToSignUpPage,
-                    child: Text(
-                      "Sign Up Here!",
-                      style: TextStyle(
-                          fontSize: 15,
-                          decoration: TextDecoration.underline,
-                          color: Theme.of(context).colorScheme.primary),
-                    ))
-              ],
-            )
-          ],
+              ),
+
+              const SizedBox(height: 50),
+              // welcome message
+              Text(
+                "Welcome Back!",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.inversePrimary),
+              ),
+              const SizedBox(height: 25),
+              //email textfield
+              MyTextField(
+                hintText: "Type Email",
+                obscureText: false,
+                textController: _emailController,
+              ),
+              const SizedBox(height: 10),
+              //password textfield
+              MyTextField(
+                hintText: "Type Password",
+                obscureText: true,
+                textController: _passwordController,
+              ),
+              const SizedBox(height: 25),
+
+              //login button
+              MyButton(
+                text: "Log In",
+                onTap: userLogin,
+              ),
+              const SizedBox(height: 25),
+
+              //register now
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    " Not a member?",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  TextButton(
+                      onPressed: widget.goToSignUpPage,
+                      child: const Text(
+                        "Sign Up Here!",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold),
+                      ))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

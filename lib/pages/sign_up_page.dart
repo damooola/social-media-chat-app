@@ -53,79 +53,81 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // big logo
-            Transform.rotate(
-              angle: 85,
-              child: Icon(
-                Icons.message,
-                size: 70,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-
-            const SizedBox(height: 50),
-            // welcome message
-            Text(
-              "Join Us!",
-              style: TextStyle(
-                  fontSize: 16, color: Theme.of(context).colorScheme.primary),
-            ),
-            const SizedBox(height: 25),
-            //email textfeield
-            MyTextField(
-              hintText: "Type Email",
-              obscureText: false,
-              textController: _emailController,
-            ),
-            const SizedBox(height: 13),
-            //password textfield
-            MyTextField(
-              hintText: "Type Password",
-              obscureText: true,
-              textController: _passwordController,
-            ),
-            const SizedBox(height: 10),
-            //confirm password textfield
-            MyTextField(
-              hintText: "Confirm Password",
-              obscureText: true,
-              textController: _confirmPasswordController,
-            ),
-
-            const SizedBox(height: 30),
-
-            //login button
-            MyButton(
-              text: "Sign Up",
-              onTap: userSignUp,
-            ),
-            const SizedBox(height: 25),
-
-            //register now
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  " Already have an account?",
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // big logo
+              Transform.rotate(
+                angle: 85,
+                child: Icon(
+                  Icons.message,
+                  size: 70,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                TextButton(
-                    onPressed: widget.goToLoginPage,
-                    child: Text(
-                      "Login Now!",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                          color: Theme.of(context).colorScheme.primary),
-                    ))
-              ],
-            )
-          ],
+              ),
+
+              const SizedBox(height: 50),
+              // welcome message
+              Text(
+                "Join Us!",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.inversePrimary),
+              ),
+              const SizedBox(height: 25),
+              //email textfeield
+              MyTextField(
+                hintText: "Type Email",
+                obscureText: false,
+                textController: _emailController,
+              ),
+              const SizedBox(height: 13),
+              //password textfield
+              MyTextField(
+                hintText: "Type Password",
+                obscureText: true,
+                textController: _passwordController,
+              ),
+              const SizedBox(height: 10),
+              //confirm password textfield
+              MyTextField(
+                hintText: "Confirm Password",
+                obscureText: true,
+                textController: _confirmPasswordController,
+              ),
+
+              const SizedBox(height: 30),
+
+              //login button
+              MyButton(
+                text: "Sign Up",
+                onTap: userSignUp,
+              ),
+              const SizedBox(height: 25),
+
+              //register now
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    " Already have an account?",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  TextButton(
+                      onPressed: widget.goToLoginPage,
+                      child: const Text(
+                        "Login Now!",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue),
+                      ))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
