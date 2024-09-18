@@ -23,14 +23,44 @@ class _ChatPageState extends State<ChatPage> {
   final _chatService = ChatService();
   //auth service
   final _authService = AuthService();
+
+  //texfield focus
   FocusNode myFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
     // add listener to focus node
-    myFocusNode.addListener(
-      () {},
+    myFocusNode.addListener(() {
+      if (myFocusNode.hasFocus) {
+        //delay for keyboard to show
+        //calc remaining space
+        //then scroll down
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          () => scrollDown(),
+        );
+      }
+    });
+
+    // wait for list view to be built then scroll to bottom
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () => scrollDown(),
     );
+  }
+
+  @override
+  void dispose() {
+    myFocusNode.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  //scroll controller
+  final ScrollController _scrollController = ScrollController();
+  void scrollDown() {
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
 
   void sendMessage() async {
@@ -39,10 +69,15 @@ class _ChatPageState extends State<ChatPage> {
       //send the message
       await _chatService.sendMessage(
           widget.receiverID, _messageController.text);
-    }
 
-    //clear the text controller
-    _messageController.clear();
+      // remove on screen keyboard after sending message
+      if (mounted) {
+        FocusScope.of(context).unfocus();
+      }
+      //clear the text controller
+      _messageController.clear();
+      scrollDown();
+    }
   }
 
   @override
@@ -83,6 +118,7 @@ class _ChatPageState extends State<ChatPage> {
 
         // listview
         return ListView(
+          controller: _scrollController,
           children:
               snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
         );
@@ -120,6 +156,7 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
               child: MyTextField(
             textController: _messageController,
+            focusNode: myFocusNode,
             hintText: "Type a message",
             obscureText: false,
           )),
