@@ -4,7 +4,8 @@ import 'package:sm_chatapp/components/my_drawer_tile.dart';
 import 'package:sm_chatapp/pages/settings_page.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  final String currentUserEmail;
+  const MyDrawer({super.key, required this.currentUserEmail});
 
   //Logout method
   void logOut() {
@@ -34,6 +35,11 @@ class MyDrawer extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // a tile in the drawer to identify which user is currently logged in
+                  MyDrawerTile(
+                      text: currentUserEmail,
+                      iconData: Icons.person_2_rounded,
+                      onTap: () {}),
 
                   //home list tile
                   MyDrawerTile(
