@@ -106,22 +106,30 @@ class _ChatPageState extends State<ChatPage> {
     return StreamBuilder(
       stream: _chatService.getMessages(widget.receiverID, senderID),
       builder: (context, snapshot) {
-        // errors
+        // error handling
         if (snapshot.hasError) {
           return const Center(child: Text("Error"));
         }
 
-        // loading
+        // loading state
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: Text("Loading..."));
         }
 
+        //use list view builder instead for cleaner code
+        return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              final DocumentSnapshot doc = snapshot.data!.docs[index];
+              return _buildMessageItem(doc);
+            });
+
         // listview
-        return ListView(
+        /* return ListView(
           controller: _scrollController,
           children:
               snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
-        );
+        );*/
       },
     );
   }
