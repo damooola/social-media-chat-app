@@ -13,7 +13,7 @@ class ChatService {
     // access the Users colection, get a stream of snapshots, then map each snapshot
     // .map allows us to tansform data of any type to a specific type we want
     return _firestore.collection("Users").snapshots().map((snapshot) {
-   // for each snapshot, map the document to a list of user data
+      // for each snapshot, map the document to a list of user data
       return snapshot.docs.map((doc) {
         //go through each individual user
         final user = doc.data();
@@ -49,7 +49,6 @@ class ChatService {
         .doc(chatRoomID)
         .collection("messages")
         .add(newMessage.toMap());
-    //
   }
 
   // get message
@@ -59,7 +58,7 @@ class ChatService {
     List<String> ids = [userID, otherUserID];
     //sort to ensure chatrrom id is same for any two people
     ids.sort();
-
+    // join the two ids with an underscore to create a new unique chat room id
     String chatRoomID = ids.join("_");
     return _firestore
         .collection("chat_rooms")
