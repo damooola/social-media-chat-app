@@ -16,9 +16,10 @@ class AuthService {
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
 
-      //save user in separate doc if it doesnt already exist
+      //save user credentilas in separate doc if it doesn't already exist
+      // sets allows to manually set a doc with a specific ID, create or overwrite
       _firestore.collection("Users").doc(userCredential.user!.uid).set(
-        {"uid": userCredential.user!.uid, "email": email},
+        {"uid": userCredential.user!.uid, "email": userCredential.user!.email},
       );
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -48,6 +49,4 @@ class AuthService {
   Future<void> signOut() async {
     return await _firebaseAuth.signOut();
   }
-
-// errors
 }
