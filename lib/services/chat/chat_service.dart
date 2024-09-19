@@ -7,11 +7,13 @@ class ChatService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   //fireabse auth instance
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
 // get user stream from firestore
   Stream<List<Map<String, dynamic>>> getUsersStream() {
-    //access the Users colection, get a stream of snapshots, then map each snapshot
+    // access the Users colection, get a stream of snapshots, then map each snapshot
+    // .map allows us to tansform data of any type to a specific type we want
     return _firestore.collection("Users").snapshots().map((snapshot) {
-// for each snapshot, map the document to a list of user data
+   // for each snapshot, map the document to a list of user data
       return snapshot.docs.map((doc) {
         //go through each individual user
         final user = doc.data();
