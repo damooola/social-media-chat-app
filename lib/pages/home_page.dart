@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sm_chatapp/components/my_app_bar.dart';
 import 'package:sm_chatapp/services/auth/auth_service.dart';
 import 'package:sm_chatapp/services/chat/chat_service.dart';
 
@@ -28,16 +29,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-        elevation: 5,
-        title: Text(
-          "Home",
-          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const MyAppBar(text: "Home"),
       drawer: MyDrawer(
         currentUserEmail: authService.getCurrentUser()!.email!,
       ),
@@ -48,15 +40,18 @@ class HomePage extends StatelessWidget {
   // build a list of users except for current logged in user
   Widget _buildUserList() {
     return StreamBuilder(
-        stream: chatService.getUsersStream(),
+        stream: chatService.getUsersStreamExcludingBlocked(),
         builder: (context, snapshot) {
           // see is there is erorrs
           if (snapshot.hasError) {
             return const Center(child: Text("Error"));
           }
-          //loading
+          // loading
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: Text("Loading..."));
+            return const Center(
+                child: Center(
+              child: CircularProgressIndicator(),
+            ));
           }
           // use a listview builder instead
           return ListView.builder(
@@ -66,7 +61,7 @@ class HomePage extends StatelessWidget {
               return _userListItem(userData, context);
             },
           );
-          //alternative way of displaying the list of users by using a listview
+          // alternative way of displaying the list of users by using a listview
           /* return ListView(
             children: snapshot.data!
                 .map<Widget>(
@@ -82,7 +77,7 @@ class HomePage extends StatelessWidget {
     if (userData["email"] != authService.getCurrentUser()!.email) {
       return MyUserTile(
         text: userData["email"],
-        //tap user tile
+        // tap user tile
         onTap: () => tapUserTile(context, userData),
       );
     } else {
