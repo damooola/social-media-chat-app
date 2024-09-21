@@ -108,8 +108,13 @@ class MyChatBubble extends StatelessWidget {
                 // block button
                 TextButton(
                     onPressed: () {
+                      // block user
                       ChatService().blockUser(userID);
+                      // dismiss the dialog box
                       Navigator.pop(context);
+                      // dismiss the chat page
+                     Navigator.pop(context);
+                      // inform user after block
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("User Blocked!")));
                     },
