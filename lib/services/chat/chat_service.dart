@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:sm_chatapp/models/message.dart';
 
 class ChatService extends ChangeNotifier {
-// firestore instance
+  // firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  //fireabse auth instance
+  // fireabse auth instance
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-// get user stream from firestore
+  // get user stream from firestore
   Stream<List<Map<String, dynamic>>> getUsersStream() {
     // access the Users colection, get a stream of snapshots, then map each snapshot
     // .map allows us to tansform data of any type to a specific type we want
@@ -24,7 +24,7 @@ class ChatService extends ChangeNotifier {
     });
   }
 
-// get userstream except blocked user
+  // get userstream except blocked user
   Stream<List<Map<String, dynamic>>> getUsersStreamExcludingBlocked() {
     final currentUser = _firebaseAuth.currentUser;
     return _firestore
@@ -32,9 +32,9 @@ class ChatService extends ChangeNotifier {
         .doc(currentUser!.uid)
         .collection("BlockedUsers")
         .snapshots()
+        // async map allows to make async queries inside the map function
         .asyncMap((snapshot) async {
       final blockedUserIDs = snapshot.docs.map((doc) => doc.id).toList();
-
       //get all users
       final userSnapShot = await _firestore.collection("Users").get();
 
@@ -43,12 +43,14 @@ class ChatService extends ChangeNotifier {
           .where((doc) =>
               doc.data()["email"] != currentUser.email &&
               !blockedUserIDs.contains(doc.id))
-          .map((doc) => doc.data())
+          .map(
+            (doc) => doc.data(),
+          )
           .toList();
     });
   }
 
-// send message
+  // send message
   Future<void> sendMessage(String receiverID, String message) async {
     // get currrent user info
     final currrentUserID = _firebaseAuth.currentUser!.uid;
@@ -77,13 +79,11 @@ class ChatService extends ChangeNotifier {
   }
 
   // get message
-
   Stream<QuerySnapshot> getMessages(String userID, String otherUserID) {
     // cpnstruct a charoomId for the two users
     List<String> ids = [userID, otherUserID];
     //sort to ensure chatrrom id is same for any two people
-    ids.sort();
-    // join the two ids with an underscore to create a new unique chat room id
+    ids.sort(); // join the two ids with an underscore to create a new unique chat room id
     String chatRoomID = ids.join("_");
     return _firestore
         .collection("chat_rooms")
@@ -139,12 +139,12 @@ class ChatService extends ChangeNotifier {
       (snapshot) async {
         // get a list of blocked user IDs
         final blockedUserIDs = snapshot.docs.map((doc) => doc.id).toList();
-        final userDocs = await Future.wait(
-          blockedUserIDs
-              .map((id) => _firestore.collection("Users").doc(id).get()),
-        );
+        // gets all blocked users with their given ids using the uers collection
+        //future.wait allows for parallel execution
+        final blockedUserDocs = await Future.wait(blockedUserIDs
+            .map((id) => _firestore.collection("Users").doc(id).get()));
 
-        return userDocs
+        return blockedUserDocs
             .map((doc) => doc.data() as Map<String, dynamic>)
             .toList();
       },
