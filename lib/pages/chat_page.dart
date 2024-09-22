@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sm_chatapp/components/my_app_bar.dart';
 import 'package:sm_chatapp/components/my_chat_bubble.dart';
 import 'package:sm_chatapp/services/auth/auth_service.dart';
 import 'package:sm_chatapp/services/chat/chat_service.dart';
@@ -17,14 +18,14 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-//input controller
+// input controller
   final TextEditingController _messageController = TextEditingController();
-  //chat services
+  // chat services
   final _chatService = ChatService();
-  //auth service
+  // auth service
   final _authService = AuthService();
 
-  //texfield focus
+  // texfield focus
   FocusNode myFocusNode = FocusNode();
   @override
   void initState() {
@@ -32,9 +33,9 @@ class _ChatPageState extends State<ChatPage> {
     // add listener to focus node
     myFocusNode.addListener(() {
       if (myFocusNode.hasFocus) {
-        //delay for keyboard to show
-        //calc remaining space
-        //then scroll down
+        // delay for keyboard to show
+        // calc remaining space
+        // then scroll down
         Future.delayed(
           const Duration(milliseconds: 500),
           () => scrollDown(),
@@ -56,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
-  //scroll controller
+  // scroll controller
   final ScrollController _scrollController = ScrollController();
   void scrollDown() {
     _scrollController.animateTo(_scrollController.position.maxScrollExtent,
@@ -64,9 +65,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void sendMessage() async {
-    //check if textfeild is blank to avoid sending blank messages
+    // check if textfeild is blank to avoid sending blank messages
     if (_messageController.text.isNotEmpty) {
-      //send the message
+      // send the message
       await _chatService.sendMessage(
           widget.receiverID, _messageController.text);
 
@@ -74,7 +75,7 @@ class _ChatPageState extends State<ChatPage> {
       if (mounted) {
         FocusScope.of(context).unfocus();
       }
-      //clear the text controller
+      // clear the text controller
       _messageController.clear();
       scrollDown();
     }
@@ -83,12 +84,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.receiverEmail),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-        elevation: 5,
-      ),
+      appBar: MyAppBar(text: widget.receiverEmail),
       body: Column(
         children: [
           // display all messages
@@ -113,10 +109,13 @@ class _ChatPageState extends State<ChatPage> {
 
         // loading state
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: Text("Loading..."));
+          return const Center(
+              child: Center(
+            child: CircularProgressIndicator(),
+          ));
         }
 
-        //use list view builder instead for cleaner code
+        // use list view builder instead for cleaner code
         return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
@@ -124,7 +123,7 @@ class _ChatPageState extends State<ChatPage> {
               return _buildMessageItem(doc);
             });
 
-        // listview
+        // Listview
         /* return ListView(
           controller: _scrollController,
           children:
@@ -134,7 +133,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-//build each message item
+// build each message item
   Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     // is current user
@@ -165,7 +164,7 @@ class _ChatPageState extends State<ChatPage> {
       padding: const EdgeInsets.only(bottom: 50),
       child: Row(
         children: [
-          //textfeild (takes up most space)
+          // textfield (takes up most space)
           Expanded(
               child: MyTextField(
             textController: _messageController,
