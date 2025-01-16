@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sm_chatapp/components/my_app_bar.dart';
 import 'package:sm_chatapp/services/auth/auth_service.dart';
 import 'package:sm_chatapp/services/chat/chat_service.dart';
-
 import '../components/my_drawer.dart';
 import '../components/my_user_tile.dart';
 import 'chat_page.dart';

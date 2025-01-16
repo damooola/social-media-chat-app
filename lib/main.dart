@@ -11,6 +11,7 @@ void main() async {
   //initgialise firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+// add provider to app
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
     child: const MyApp(),

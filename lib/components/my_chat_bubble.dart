@@ -15,7 +15,7 @@ class MyChatBubble extends StatelessWidget {
       required this.messageID,
       required this.userID});
 
-  //show options
+  // show options
   void _showOptions(BuildContext context, String messageID, String userID) {
     showModalBottomSheet(
       useSafeArea: true,
@@ -23,7 +23,7 @@ class MyChatBubble extends StatelessWidget {
       builder: (context) {
         return Wrap(
           children: [
-            //report message button
+            // report message button
             ListTile(
               title: const Text("Report"),
               leading: const Icon(Icons.flag),
@@ -32,7 +32,7 @@ class MyChatBubble extends StatelessWidget {
                 _reportMessage(context, messageID, userID);
               },
             ),
-            //block user button
+            // block user button
             ListTile(
               title: const Text("Block"),
               leading: const Icon(Icons.block),

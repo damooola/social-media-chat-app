@@ -10,6 +10,8 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // streambuilder to listen to authstate changes, keeps user logged in to avoid logging in on every app startup 
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

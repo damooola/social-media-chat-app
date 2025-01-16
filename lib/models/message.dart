@@ -19,7 +19,7 @@ class Message {
     return {
       "senderID": senderID,
       "senderEmail": receiverID,
-      "reciverID": receiverID,
+      "receiverID": receiverID,
       "message": message,
       "timestamp": timestamp
     };

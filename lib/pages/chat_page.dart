@@ -20,7 +20,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
 // input controller
   final TextEditingController _messageController = TextEditingController();
-  // chat services
+  // chat service
   final _chatService = ChatService();
   // auth service
   final _authService = AuthService();

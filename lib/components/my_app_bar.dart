@@ -19,7 +19,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-// define a valuw for the size
+// define a value for the size
 // kToolbarHeight is a constant that represents the default height of an app bar.
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
